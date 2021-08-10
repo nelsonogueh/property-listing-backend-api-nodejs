@@ -22,7 +22,6 @@ app.use("/api/v1/agent", agentRoutes)
 app.use("/api/v1/properties", propertyRoutes)
 
 
-
 // Handling unhandled routes
 app.all("*", (req, res) => {
     res.status(404).json({
@@ -30,7 +29,7 @@ app.all("*", (req, res) => {
         message: "Sorry! The resource you are looking for could not be found."
     })
 })
-   
+
 // Start Server
     app.listen(process.env.PORT, () => {
         console.log(`Server running at port ${process.env.PORT}`)
