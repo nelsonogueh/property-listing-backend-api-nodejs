@@ -1,27 +1,27 @@
 const express = require("express")
 const dotenv = require("dotenv")
 
-const server = require("./server")
-
+const db = require("./db/dbConnection")
 const userRoutes = require("./routes/userRoute")
 const agentRoutes = require("./routes/agentRoute")
 const propertyRoutes = require("./routes/propertyRoute")
+const app = express()
 
 dotenv.config({path: "./.env"})
 
-const app = express()
+//Middlewares
 app.use(express.json())
 
+ // Database connection
+db()
+     
 
-
-// Mounting routes
-// app.use("/api/v1/users", userRoutes)
-// app.use("/api/v1/agent", agentRoutes)
+    //Mounting routes
+app.use("/api/v1/users", userRoutes)
+app.use("/api/v1/agent", agentRoutes)
 app.use("/api/v1/properties", propertyRoutes)
 
-app.get('/',(req,res)=>{
-    res.send('index working')
-})
+
 
 // Handling unhandled routes
 app.all("*", (req, res) => {
@@ -30,8 +30,12 @@ app.all("*", (req, res) => {
         message: "Sorry! The resource you are looking for could not be found."
     })
 })
-
-
-
+   
 // Start Server
-server.startServer()
+    app.listen(process.env.PORT, () => {
+        console.log(`Server running at port ${process.env.PORT}`)
+
+    })
+
+
+
